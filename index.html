@@ -1,73 +1,449 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Tarjeta</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Corazón de Mujer | Tarjetas digitales</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .landing-hero {
+      padding: 60px 0 24px;
+    }
 
-<style>
-body{
-font-family:Arial;
-background:#f2f2f2;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-margin:0;
-}
+    .landing-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: center;
+    }
 
-.card{
-background:white;
-padding:40px;
-border-radius:15px;
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
-text-align:center;
-}
-</style>
+    .hero-copy {
+      text-align: left;
+    }
 
+    .hero-copy .eyebrow {
+      margin-bottom: 18px;
+    }
+
+    .hero-copy .hero-title {
+      margin: 0 0 16px;
+    }
+
+    .hero-copy .hero-subtitle {
+      margin: 0;
+      max-width: 640px;
+    }
+
+    .hero-actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .hero-panel {
+      position: relative;
+      min-height: 460px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .floating-heart {
+      position: absolute;
+      font-size: 58px;
+      color: rgba(255, 62, 165, 0.16);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .heart-1 { top: 10%; left: 10%; }
+    .heart-2 { bottom: 14%; right: 12%; }
+    .heart-3 { top: 18%; right: 18%; font-size: 42px; }
+
+    .preview-card {
+      width: 100%;
+      max-width: 380px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 30px;
+      box-shadow: 0 18px 50px rgba(255, 62, 165, 0.14);
+      padding: 28px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .preview-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #4b5563;
+      margin-bottom: 18px;
+    }
+
+    .preview-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 44px;
+      line-height: 0.95;
+      margin: 0 0 18px;
+    }
+
+    .preview-name .rosa {
+      color: #FF3EA5;
+    }
+
+    .preview-chip-group {
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      margin-bottom: 18px;
+    }
+
+    .preview-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(255, 62, 165, 0.12);
+      border-radius: 999px;
+      color: #374151;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .preview-bio {
+      background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(255,244,250,0.96) 100%);
+      border: 1px solid rgba(255, 62, 165, 0.10);
+      border-radius: 20px;
+      padding: 16px;
+      color: #4b5563;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .preview-qr {
+      width: 170px;
+      height: 170px;
+      margin: 0 auto;
+      border-radius: 22px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,1), rgba(255,244,250,1));
+      border: 1px solid rgba(255, 62, 165, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+
+    .preview-qr svg {
+      width: 120px;
+      height: 120px;
+    }
+
+    .section-block {
+      padding: 28px 0 10px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      margin: 8px 0 10px;
+      font-size: clamp(34px, 5vw, 60px);
+      line-height: 0.98;
+    }
+
+    .section-text {
+      margin: 0 auto;
+      max-width: 760px;
+      color: #4b5563;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 26px;
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.9);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    .feature-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: rgba(255, 62, 165, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FF3EA5;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 12px;
+      font-size: 32px;
+      line-height: 1.05;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: #4b5563;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .contact-card {
+      margin-top: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,244,250,0.96) 100%);
+      border-radius: 30px;
+      padding: 34px 26px;
+      text-align: center;
+      box-shadow: 0 16px 38px rgba(255, 62, 165, 0.10);
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    .contact-card .eyebrow {
+      margin-bottom: 16px;
+    }
+
+    .contact-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(34px, 4.5vw, 54px);
+      line-height: 1;
+    }
+
+    .contact-card p {
+      margin: 0 auto 24px;
+      max-width: 700px;
+      color: #4b5563;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .phone-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .mini-note {
+      margin-top: 18px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .site-footer {
+      padding: 24px 20px 40px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    @media (max-width: 960px) {
+      .landing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        text-align: center;
+      }
+
+      .hero-copy .hero-subtitle {
+        margin: 0 auto;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-panel {
+        min-height: 0;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="site-header-inner">
+        <div class="brand">
+          <span class="brand-heart">♥</span>
+          <span class="brand-text">Corazón de Mujer</span>
+        </div>
+      </div>
+    </header>
 
-<div class="card" id="card">
-Cargando tarjeta...
-</div>
+    <main class="main-wrap">
+      <div class="container">
+        <section class="landing-hero">
+          <div class="landing-grid">
+            <div class="hero-copy">
+              <div class="eyebrow"><span class="spark">✦</span> Tarjetas digitales con identidad premium</div>
+              <h1 class="hero-title">Haz que tu <span class="rosa">tarjeta</span> se vea tan bien como tú</h1>
+              <p class="hero-subtitle">
+                Crea una experiencia elegante para networking, membresías y comunidades.
+                Cada tarjeta incluye un enlace único y un QR listo para compartir.
+              </p>
 
-<script>
+              <div class="hero-actions">
+                <a class="btn-primary" href="tel:+17372339717">Quiero mi tarjeta</a>
+                <a class="btn-secondary" href="#contacto">Contactar ahora</a>
+              </div>
+            </div>
 
-const personas = {
+            <div class="hero-panel">
+              <div class="floating-heart heart-1">♥</div>
+              <div class="floating-heart heart-2">♥</div>
+              <div class="floating-heart heart-3">♥</div>
 
-"001":{
-nombre:"Ana",
-telefono:"+52 656 1111111"
-},
+              <div class="preview-card">
+                <div class="preview-badge">✦ Tarjeta digital premium</div>
+                <h2 class="preview-name">Corazón de <span class="rosa">Mujer</span></h2>
 
-"002":{
-nombre:"Maria",
-telefono:"+52 656 2222222"
-},
+                <div class="preview-chip-group">
+                  <div class="preview-chip">Networking</div>
+                  <div class="preview-chip">Eventos</div>
+                  <div class="preview-chip">Membresías</div>
+                </div>
 
-"003":{
-nombre:"Luisa",
-telefono:"+52 656 3333333"
-}
+                <div class="preview-bio">
+                  Comparte tu perfil, tu marca y tu presencia con una tarjeta digital elegante,
+                  lista para usarse desde el primer escaneo.
+                </div>
 
-}
+                <div class="preview-qr" aria-hidden="true">
+                  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100" height="100" rx="10" fill="white"/>
+                    <rect x="8" y="8" width="22" height="22" fill="black"/>
+                    <rect x="12" y="12" width="14" height="14" fill="white"/>
+                    <rect x="16" y="16" width="6" height="6" fill="black"/>
 
-const params = new URLSearchParams(window.location.search)
-const id = params.get("id")
+                    <rect x="70" y="8" width="22" height="22" fill="black"/>
+                    <rect x="74" y="12" width="14" height="14" fill="white"/>
+                    <rect x="78" y="16" width="6" height="6" fill="black"/>
 
-const card = document.getElementById("card")
+                    <rect x="8" y="70" width="22" height="22" fill="black"/>
+                    <rect x="12" y="74" width="14" height="14" fill="white"/>
+                    <rect x="16" y="78" width="6" height="6" fill="black"/>
 
-if(personas[id]){
-card.innerHTML = `
-<h1>${personas[id].nombre}</h1>
-<p>${personas[id].telefono}</p>
-`
-}else{
-card.innerHTML = "Tarjeta no encontrada"
-}
+                    <rect x="38" y="10" width="6" height="6" fill="black"/>
+                    <rect x="46" y="10" width="6" height="6" fill="black"/>
+                    <rect x="54" y="10" width="6" height="6" fill="black"/>
+                    <rect x="38" y="18" width="6" height="6" fill="black"/>
+                    <rect x="54" y="18" width="6" height="6" fill="black"/>
 
-</script>
+                    <rect x="38" y="34" width="6" height="6" fill="black"/>
+                    <rect x="46" y="34" width="6" height="6" fill="black"/>
+                    <rect x="54" y="34" width="6" height="6" fill="black"/>
+                    <rect x="62" y="34" width="6" height="6" fill="black"/>
 
+                    <rect x="34" y="46" width="6" height="6" fill="black"/>
+                    <rect x="42" y="46" width="6" height="6" fill="black"/>
+                    <rect x="58" y="46" width="6" height="6" fill="black"/>
+                    <rect x="66" y="46" width="6" height="6" fill="black"/>
+
+                    <rect x="34" y="54" width="6" height="6" fill="black"/>
+                    <rect x="50" y="54" width="6" height="6" fill="black"/>
+                    <rect x="58" y="54" width="6" height="6" fill="black"/>
+                    <rect x="74" y="54" width="6" height="6" fill="black"/>
+
+                    <rect x="38" y="62" width="6" height="6" fill="black"/>
+                    <rect x="46" y="62" width="6" height="6" fill="black"/>
+                    <rect x="54" y="62" width="6" height="6" fill="black"/>
+                    <rect x="62" y="62" width="6" height="6" fill="black"/>
+
+                    <rect x="74" y="70" width="18" height="18" fill="black"/>
+                    <rect x="78" y="74" width="10" height="10" fill="white"/>
+                    <rect x="82" y="78" width="2" height="2" fill="black"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-header">
+            <div class="eyebrow"><span class="spark">✦</span> ¿Por qué tener una tarjeta digital?</div>
+            <h2 class="section-title">Una presencia más <span class="rosa">elegante</span> y práctica</h2>
+            <p class="section-text">
+              Tus clientes, asistentes o miembros pueden escanear un QR y acceder a una tarjeta digital limpia,
+              moderna y fácil de actualizar.
+            </p>
+          </div>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="feature-icon">♡</div>
+              <h3>Diseño premium</h3>
+              <p>Un estilo visual limpio, femenino y elegante que fortalece la identidad de tu marca o comunidad.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">⌁</div>
+              <h3>QR único</h3>
+              <p>Cada tarjeta tiene un enlace único que puede colocarse en credenciales, membresías y tarjetas físicas.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">✦</div>
+              <h3>Activación sencilla</h3>
+              <p>El perfil puede activarse fácilmente con un enlace privado, sin necesidad de reimprimir la tarjeta.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-block" id="contacto">
+          <div class="contact-card">
+            <div class="eyebrow"><span class="spark">✦</span> Haz crecer tu presencia</div>
+            <h2>¿Quieres tu propia tarjeta?</h2>
+            <p>
+              Si quieres una tarjeta digital personalizada para tu marca, evento o membresía,
+              contáctanos y te ayudamos a implementarla.
+            </p>
+
+            <a class="btn-primary phone-link" href="tel:+17372339717">
+              Llamar al +1 (737) 233-9717
+            </a>
+
+            <div class="mini-note">
+              También puedes usar este número para solicitar información sobre implementación y tarjetas personalizadas.
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      Corazón de Mujer · Tarjetas digitales con QR
+    </footer>
+  </div>
 </body>
 </html>
