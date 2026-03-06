@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 420px;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    button {
+      background: #111;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #msg {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Crear tarjeta</h1>
+
+    <form id="registerForm">
+      <input type="text" id="full_name" placeholder="Nombre completo" required />
+      <input type="email" id="email" placeholder="Correo" />
+      <input type="text" id="phone" placeholder="Teléfono" />
+      <input type="text" id="company" placeholder="Empresa" />
+      <input type="text" id="role" placeholder="Puesto" />
+      <textarea id="bio" placeholder="Descripción breve"></textarea>
+      <button type="submit">Registrar</button>
+    </form>
+
+    <p id="msg"></p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./app.js"></script>
+
+  <script>
+    function slugify(text) {
+      return text
+        .toLowerCase()
+        .trim()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    document.getElementById("registerForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const full_name = document.getElementById("full_name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const company = document.getElementById("company").value.trim();
+      const role = document.getElementById("role").value.trim();
+      const bio = document.getElementById("bio").value.trim();
+
+      const msg = document.getElementById("msg");
+      msg.textContent = "Guardando...";
+
+      const public_slug = slugify(full_name) + "-" + Math.floor(Math.random() * 10000);
+
+      const { data, error } = await supabaseClient
+        .from("profiles")
+        .insert([
+          {
+            full_name,
+            email,
+            phone,
+            company,
+            role,
+            bio,
+            public_slug,
+            is_public: true
+          }
+        ])
+        .select()
+        .single();
+
+      if (error) {
+        msg.textContent = "Error: " + error.message;
+        return;
+      }
+
+      msg.textContent = "Registro exitoso";
+      window.location.href = "./card.html?slug=" + data.public_slug;
+    });
+  </script>
+</body>
+</html>
