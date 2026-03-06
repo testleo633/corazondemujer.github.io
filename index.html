@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Corazón de Mujer | Tarjetas digitales</title>
+  <title>Corazón de Mujer | Comunidad y Beneficios</title>
   <link rel="stylesheet" href="./style.css" />
   <style>
     /* =========================================
@@ -23,7 +23,7 @@
       background: linear-gradient(-45deg, #ffffff, #fff4fa, #ffffff, #ffeaf4);
       background-size: 400% 400%;
       animation: gradientBg 15s ease infinite;
-      overflow-x: hidden; /* Evita scroll horizontal por animaciones */
+      overflow-x: hidden;
     }
 
     @keyframes gradientBg {
@@ -54,7 +54,7 @@
     .delay-3 { transition-delay: 0.3s; }
 
     /* =========================================
-       ESTILOS ORIGINALES CON MEJORAS
+       ESTILOS
        ========================================= */
     .landing-hero {
       padding: 60px 0 24px;
@@ -91,7 +91,6 @@
       gap: 14px;
     }
 
-    /* Botones con efecto hover (asegúrate de tener btn-primary en style.css, aquí le damos el hover) */
     .hero-actions a {
       transition: var(--transition-smooth);
     }
@@ -115,7 +114,7 @@
       user-select: none;
       pointer-events: none;
       animation: float 6s ease-in-out infinite;
-      transition: transform 0.2s ease-out; /* Para el parallax JS */
+      transition: transform 0.2s ease-out;
     }
 
     .heart-1 { top: 10%; left: 10%; animation-delay: 0s; }
@@ -132,7 +131,7 @@
       padding: 28px;
       text-align: center;
       backdrop-filter: blur(10px);
-      animation: float 8s ease-in-out infinite; /* Levitación añadida */
+      animation: float 8s ease-in-out infinite;
       transition: var(--transition-smooth);
     }
 
@@ -167,8 +166,8 @@
 
     .preview-chip-group {
       display: grid;
-      gap: 10px;
-      justify-items: center;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
       margin-bottom: 18px;
     }
 
@@ -176,12 +175,12 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 16px;
+      padding: 8px 12px;
       background: rgba(255,255,255,0.96);
       border: 1px solid rgba(255, 62, 165, 0.12);
       border-radius: 999px;
       color: #374151;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       transition: var(--transition-smooth);
     }
@@ -209,20 +208,31 @@
       background: linear-gradient(135deg, rgba(255,255,255,1), rgba(255,244,250,1));
       border: 1px solid rgba(255, 62, 165, 0.12);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       box-shadow: 0 8px 22px rgba(0,0,0,0.06);
       overflow: hidden;
       transition: var(--transition-smooth);
+      position: relative;
     }
+    
+    .nfc-text {
+      font-size: 12px;
+      font-weight: bold;
+      color: var(--rosa-brand);
+      margin-top: 8px;
+      letter-spacing: 1px;
+    }
+
     .preview-qr:hover {
       transform: scale(1.03);
       box-shadow: 0 12px 30px rgba(255, 62, 165, 0.2);
     }
 
     .preview-qr svg {
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
     }
 
     .section-block {
@@ -287,15 +297,15 @@
 
     .feature-card h3 {
       margin: 0 0 12px;
-      font-size: 32px;
-      line-height: 1.05;
+      font-size: 28px;
+      line-height: 1.1;
     }
 
     .feature-card p {
       margin: 0;
       color: #4b5563;
       font-size: 16px;
-      line-height: 1.7;
+      line-height: 1.6;
     }
 
     .contact-card {
@@ -394,16 +404,15 @@
         <section class="landing-hero">
           <div class="landing-grid">
             <div class="hero-copy reveal delay-1">
-              <div class="eyebrow"><span class="spark">✦</span> Tarjetas digitales con identidad premium</div>
-              <h1 class="hero-title">Haz que tu <span class="rosa">tarjeta</span> se vea tan bien como tú</h1>
+              <div class="eyebrow"><span class="spark">✦</span> Beneficios y eventos exclusivos para ti</div>
+              <h1 class="hero-title">Tu pase de acceso a nuestra <span class="rosa">comunidad</span></h1>
               <p class="hero-subtitle">
-                Crea una experiencia elegante para networking, membresías y comunidades.
-                Cada tarjeta incluye un enlace único y un QR listo para compartir.
+                Únete a la red de Corazón de Mujer y obtén tu tarjeta oficial. Accede a eventos exclusivos, talleres y beneficios con solo acercarla a tu teléfono gracias a la tecnología NFC.
               </p>
 
               <div class="hero-actions">
-                <a class="btn-primary" href="tel:+17372339717">Quiero mi tarjeta</a>
-                <a class="btn-secondary" href="#contacto">Contactar ahora</a>
+                <a class="btn-primary" href="#contacto">Solicitar mi membresía</a>
+                <a class="btn-secondary" href="#beneficios">Conocer beneficios</a>
               </div>
             </div>
 
@@ -413,18 +422,17 @@
               <div class="floating-heart heart-3">♥</div>
 
               <div class="preview-card">
-                <div class="preview-badge">✦ Tarjeta digital premium</div>
+                <div class="preview-badge">✦ Tarjeta inteligente NFC + QR</div>
                 <h2 class="preview-name">Corazón de <span class="rosa">Mujer</span></h2>
 
                 <div class="preview-chip-group">
-                  <div class="preview-chip">Networking</div>
+                  <div class="preview-chip">Comunidad</div>
+                  <div class="preview-chip">Beneficios</div>
                   <div class="preview-chip">Eventos</div>
-                  <div class="preview-chip">Membresías</div>
                 </div>
 
                 <div class="preview-bio">
-                  Comparte tu perfil, tu marca y tu presencia con una tarjeta digital elegante,
-                  lista para usarse desde el primer escaneo.
+                  Tu membresía oficial. Accede al instante a nuestra red de apoyo, eventos especiales y descuentos en negocios aliados.
                 </div>
 
                 <div class="preview-qr" aria-hidden="true">
@@ -464,56 +472,57 @@
                     <rect x="78" y="74" width="10" height="10" fill="white"/>
                     <rect x="82" y="78" width="2" height="2" fill="black"/>
                   </svg>
+                  <div class="nfc-text">NFC / SCAN</div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section class="section-block">
+        <section class="section-block" id="beneficios">
           <div class="section-header reveal">
-            <div class="eyebrow"><span class="spark">✦</span> ¿Por qué tener una tarjeta digital?</div>
-            <h2 class="section-title">Una presencia más <span class="rosa">elegante</span> y práctica</h2>
+            <div class="eyebrow"><span class="spark">✦</span> Todo en un solo lugar</div>
+            <h2 class="section-title">Más que una tarjeta, es tu <span class="rosa">comunidad</span></h2>
             <p class="section-text">
-              Tus clientes, asistentes o miembros pueden escanear un QR y acceder a una tarjeta digital limpia, moderna y fácil de actualizar.
+              Diseñada para conectar, crecer y disfrutar. Lleva contigo todos los beneficios de ser parte de Corazón de Mujer.
             </p>
           </div>
 
           <div class="feature-grid">
             <div class="feature-card reveal delay-1">
-              <div class="feature-icon">♡</div>
-              <h3>Diseño premium</h3>
-              <p>Un estilo visual limpio, femenino y elegante que fortalece la identidad de tu marca o comunidad.</p>
+              <div class="feature-icon">⌁</div>
+              <h3>Tecnología NFC y QR</h3>
+              <p>Solo acerca tu tarjeta a cualquier teléfono para desbloquear al instante todos tus beneficios sin necesidad de apps extra.</p>
             </div>
 
             <div class="feature-card reveal delay-2">
-              <div class="feature-icon">⌁</div>
-              <h3>QR único</h3>
-              <p>Cada tarjeta tiene un enlace único que puede colocarse en credenciales, membresías y tarjetas físicas.</p>
+              <div class="feature-icon">♡</div>
+              <h3>Beneficios Exclusivos</h3>
+              <p>Disfruta de descuentos, promociones y trato preferencial en nuestra red de negocios aliados pensados para ti.</p>
             </div>
 
             <div class="feature-card reveal delay-3">
               <div class="feature-icon">✦</div>
-              <h3>Activación sencilla</h3>
-              <p>El perfil puede activarse fácilmente con un enlace privado, sin necesidad de reimprimir la tarjeta.</p>
+              <h3>Acceso a Eventos</h3>
+              <p>Sé la primera en enterarte y asegurar tu lugar en nuestros talleres, conferencias y reuniones de networking.</p>
             </div>
           </div>
         </section>
 
         <section class="section-block reveal" id="contacto">
           <div class="contact-card">
-            <div class="eyebrow"><span class="spark">✦</span> Haz crecer tu presencia</div>
-            <h2>¿Quieres tu propia tarjeta?</h2>
+            <div class="eyebrow"><span class="spark">✦</span> Haz crecer tu círculo</div>
+            <h2>¿Lista para unirte a nosotras?</h2>
             <p>
-              Si quieres una tarjeta digital personalizada para tu marca, evento o membresía, contáctanos y te ayudamos a implementarla.
+              Solicita tu tarjeta inteligente y comienza a disfrutar de todos los beneficios, eventos y el apoyo de nuestra comunidad.
             </p>
 
             <a class="btn-primary phone-link" href="tel:+17372339717">
-              Llamar al +1 (737) 233-9717
+              Solicitar al +1 (737) 233-9717
             </a>
 
             <div class="mini-note">
-              También puedes usar este número para solicitar información sobre implementación y tarjetas personalizadas.
+              Contáctanos por llamada o WhatsApp para afiliarte y recibir tu tarjeta en casa.
             </div>
           </div>
         </section>
@@ -521,24 +530,24 @@
     </main>
 
     <footer class="site-footer reveal">
-      Corazón de Mujer · Tarjetas digitales con QR
+      Corazón de Mujer · Comunidad, Eventos y Beneficios
     </footer>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. ANIMACIONES DE SCROLL (Intersection Observer)
+      // 1. ANIMACIONES DE SCROLL
       const reveals = document.querySelectorAll('.reveal');
       
       const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('active');
-            observer.unobserve(entry.target); // Dejar de observar una vez animado
+            observer.unobserve(entry.target);
           }
         });
       }, {
-        threshold: 0.15, // Activa cuando el 15% del elemento es visible
+        threshold: 0.15,
         rootMargin: "0px 0px -50px 0px"
       });
 
@@ -546,15 +555,15 @@
         revealObserver.observe(reveal);
       });
 
-      // 2. EFECTO PARALLAX CON EL RATÓN (Solo en pantallas grandes)
+      // 2. EFECTO PARALLAX CON EL RATÓN
       if (window.innerWidth > 960) {
         document.addEventListener('mousemove', (e) => {
           const hearts = document.querySelectorAll('.floating-heart');
-          const x = (e.clientX / window.innerWidth - 0.5) * 2; // Rango de -1 a 1
+          const x = (e.clientX / window.innerWidth - 0.5) * 2;
           const y = (e.clientY / window.innerHeight - 0.5) * 2;
 
           hearts.forEach((heart, index) => {
-            const speed = (index + 1) * 15; // Diferente velocidad para cada corazón
+            const speed = (index + 1) * 15;
             heart.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
           });
         });
