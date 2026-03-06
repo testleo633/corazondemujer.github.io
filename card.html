@@ -3,58 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tarjeta</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .box {
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
-    }
-
-    h1 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 28px;
-    }
-
-    p {
-      margin: 8px 0;
-      color: #333;
-    }
-
-    img.qr {
-      margin-top: 20px;
-      border-radius: 12px;
-      max-width: 220px;
-      width: 100%;
-      height: auto;
-    }
-
-    .small {
-      font-size: 14px;
-      color: #666;
-      word-break: break-word;
-      margin-top: 14px;
-    }
-  </style>
+  <title>Tarjeta digital | Corazón de Mujer</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <div class="box" id="card">
-    Cargando tarjeta...
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="site-header-inner">
+        <div class="brand">
+          <span class="brand-heart">♥</span>
+          <span class="brand-text">Corazón de Mujer</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-wrap">
+      <div class="container">
+        <div class="hero-center">
+          <div class="eyebrow"><span class="spark">✦</span> Tarjeta digital de membresía</div>
+        </div>
+
+        <div class="card-surface profile-card" id="card">
+          Cargando tarjeta...
+        </div>
+      </div>
+    </main>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -68,7 +41,12 @@
       const card = document.getElementById("card");
 
       if (!slug) {
-        card.innerHTML = "<h2>Tarjeta no encontrada</h2><p>Falta el slug en la URL.</p>";
+        card.innerHTML = `
+          <div class="not-found">
+            <h2>Tarjeta no encontrada</h2>
+            <p>Falta el identificador en la URL.</p>
+          </div>
+        `;
         return;
       }
 
@@ -80,24 +58,50 @@
         .single();
 
       if (error || !data) {
-        card.innerHTML = "<h2>Tarjeta no encontrada</h2><p>No existe o no es pública.</p>";
+        card.innerHTML = `
+          <div class="not-found">
+            <h2>Tarjeta no encontrada</h2>
+            <p>No existe o no está pública.</p>
+          </div>
+        `;
         return;
       }
 
       const currentUrl = window.location.href;
       const qrUrl =
-        "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
+        "https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=" +
         encodeURIComponent(currentUrl);
 
       card.innerHTML = `
-        <h1>${data.full_name || ""}</h1>
-        <p>${data.role || ""}</p>
-        <p>${data.company || ""}</p>
-        <p>${data.phone || ""}</p>
-        <p>${data.email || ""}</p>
-        <p>${data.bio || ""}</p>
-        <img class="qr" src="${qrUrl}" alt="QR de la tarjeta">
-        <p class="small">${currentUrl}</p>
+        <div class="profile-badge"><span class="spark" style="color:#FF3EA5;">✦</span> Perfil activo</div>
+
+        <h1 class="profile-name">
+          ${data.full_name || ""}
+        </h1>
+
+        <div class="profile-meta">
+          ${data.role ? `<div class="meta-chip">${data.role}</div>` : ""}
+          ${data.company ? `<div class="meta-chip">${data.company}</div>` : ""}
+          ${data.phone ? `<div class="meta-chip">${data.phone}</div>` : ""}
+          ${data.email ? `<div class="meta-chip">${data.email}</div>` : ""}
+        </div>
+
+        ${data.bio ? `<div class="bio-block">${data.bio}</div>` : ""}
+
+        <div class="qr-wrap">
+          <div class="qr-box">
+            <img src="${qrUrl}" alt="QR de la tarjeta">
+          </div>
+
+          <div class="card-link">
+            <a href="${currentUrl}" target="_blank">${currentUrl}</a>
+          </div>
+
+          <div class="dual-actions">
+            <a class="btn-primary" href="${currentUrl}" target="_blank">Abrir tarjeta</a>
+            <a class="btn-secondary" href="./register.html">Crear otra</a>
+          </div>
+        </div>
       `;
     }
 
