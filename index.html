@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Corazón de Mujer | Comunidad y Beneficios</title>
+  
+  <link rel="icon" type="image/png" href="logo-corazon.png">
+  
   <link rel="stylesheet" href="./style.css" />
   <style>
     /* =========================================
@@ -24,6 +27,7 @@
       overflow-x: hidden;
       position: relative;
       margin: 0;
+      font-family: sans-serif; /* Un reset básico si no carga style.css */
     }
 
     /* =========================================
@@ -93,6 +97,18 @@
     /* =========================================
        ESTRUCTURA PRINCIPAL Y COMPONENTES
        ========================================= */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .site-header {
+        padding: 20px 0;
+        position: relative;
+        z-index: 100;
+    }
+
     .landing-hero {
       padding: 80px 0 40px;
       position: relative;
@@ -100,7 +116,7 @@
 
     .landing-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr; /* Mejor balance 50/50 */
+      grid-template-columns: 1fr 1fr;
       gap: 40px;
       align-items: center;
     }
@@ -143,16 +159,15 @@
       transition: var(--transition-smooth);
     }
 
-    /* Botón adaptado para WhatsApp */
     .btn-whatsapp {
-      background-color: var(--rosa-brand); /* Cambiado a tu rosa */
+      background-color: var(--rosa-brand);
       color: white;
-      box-shadow: 0 4px 15px rgba(255, 62, 165, 0.3); /* Sombra rosa */
+      box-shadow: 0 4px 15px rgba(255, 62, 165, 0.3);
     }
     .btn-whatsapp:hover {
-      background-color: #E63594; /* Un rosa ligeramente más oscuro al pasar el ratón */
+      background-color: #E63594;
       transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(255, 62, 165, 0.4); /* Sombra rosa más amplia */
+      box-shadow: 0 8px 25px rgba(255, 62, 165, 0.4);
     }
 
     .btn-secondary {
@@ -173,7 +188,6 @@
       justify-content: center;
     }
 
-    /* Corazones flotantes interactivos */
     .floating-heart {
       position: absolute;
       font-size: 58px;
@@ -187,11 +201,10 @@
     .heart-2 { bottom: 10%; right: 5%; animation-delay: 2s; }
     .heart-3 { top: 20%; right: 10%; font-size: 42px; animation-delay: 4s; }
 
-    /* Estilos inalterados de tu Preview Card + Glassmorphism */
     .preview-card {
       width: 100%;
       max-width: 380px;
-      background: rgba(255,255,255,0.85); /* Ligeramente más translúcida para el Glassmorphism */
+      background: rgba(255,255,255,0.85);
       border: 1px solid var(--glass-border);
       border-radius: 30px;
       box-shadow: var(--glass-shadow);
@@ -286,9 +299,6 @@
     }
     .preview-qr svg { width: 100px; height: 100px; }
 
-    /* =========================================
-       SECCIONES (GLASSMORPHISM)
-       ========================================= */
     .section-block {
       padding: 60px 0;
       position: relative;
@@ -355,7 +365,6 @@
       line-height: 1.6;
     }
 
-    /* CTA / Contacto */
     .contact-card {
       background: var(--glass-bg);
       backdrop-filter: blur(20px);
@@ -389,10 +398,12 @@
   <div class="page-shell">
     <header class="site-header reveal">
       <div class="site-header-inner container">
-        <div class="brand">
-          <span class="brand-heart" style="color: var(--rosa-brand); font-size: 24px;">♥</span>
-          <span class="brand-text" style="font-weight: bold; font-size: 20px; margin-left: 8px;">Corazón de Mujer</span>
+        
+        <div class="brand" style="display: flex; align-items: center; gap: 10px;">
+          <img src="logo-corazon.png" alt="Logo de Corazón de Mujer" style="height: 32px; width: auto;">
+          <span class="brand-text" style="font-weight: bold; font-size: 20px;">Corazón de Mujer</span>
         </div>
+        
       </div>
     </header>
 
@@ -409,7 +420,7 @@
 
               <div class="hero-actions">
                 <a class="btn-whatsapp" href="https://wa.me/17372339717?text=Hola,%20me%20gustaría%20unirme%20a%20la%20comunidad%20y%20solicitar%20mi%20tarjeta%20NFC%20de%20Corazón%20de%20Mujer." target="_blank">
-                  💬 Enviar WhatsApp
+                  Solicitar por WhatsApp
                 </a>
                 <a class="btn-secondary" href="#beneficios">Conocer más</a>
               </div>
@@ -526,7 +537,6 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Intersection Observer (Scroll reveal)
       const reveals = document.querySelectorAll('.reveal');
       const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
@@ -539,25 +549,21 @@
 
       reveals.forEach(el => observer.observe(el));
 
-      // Parallax sutil en elementos y fondo
       if (window.innerWidth > 960) {
         document.addEventListener('mousemove', (e) => {
           const x = (e.clientX / window.innerWidth - 0.5) * 2;
           const y = (e.clientY / window.innerHeight - 0.5) * 2;
           
-          // Mover corazones
           document.querySelectorAll('.floating-heart').forEach((heart, i) => {
             heart.style.transform = `translate(${x * (i + 1) * 20}px, ${y * (i + 1) * 20}px)`;
           });
 
-          // Inclinación 3D muy sutil en la tarjeta principal
           const card = document.querySelector('.preview-card');
           if(card) {
             card.style.transform = `perspective(1000px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg) translateY(-5px)`;
           }
         });
 
-        // Resetear la inclinación de la tarjeta si el mouse sale
         document.querySelector('.landing-hero').addEventListener('mouseleave', () => {
           const card = document.querySelector('.preview-card');
           if(card) card.style.transform = `perspective(1000px) rotateY(0) rotateX(0) translateY(0)`;
