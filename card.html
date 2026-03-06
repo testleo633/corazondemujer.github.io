@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarjeta</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    p {
+      margin: 8px 0;
+      color: #333;
+    }
+
+    img.qr {
+      margin-top: 20px;
+      border-radius: 12px;
+      max-width: 220px;
+      width: 100%;
+      height: auto;
+    }
+
+    .small {
+      font-size: 14px;
+      color: #666;
+      word-break: break-word;
+      margin-top: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box" id="card">
+    Cargando tarjeta...
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./app.js"></script>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("slug");
+
+    async function loadCard() {
+      const card = document.getElementById("card");
+
+      if (!slug) {
+        card.innerHTML = "<h2>Tarjeta no encontrada</h2><p>Falta el slug en la URL.</p>";
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from("profiles")
+        .select("full_name, email, phone, company, role, bio, public_slug")
+        .eq("public_slug", slug)
+        .eq("is_public", true)
+        .single();
+
+      if (error || !data) {
+        card.innerHTML = "<h2>Tarjeta no encontrada</h2><p>No existe o no es pública.</p>";
+        return;
+      }
+
+      const currentUrl = window.location.href;
+      const qrUrl =
+        "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
+        encodeURIComponent(currentUrl);
+
+      card.innerHTML = `
+        <h1>${data.full_name || ""}</h1>
+        <p>${data.role || ""}</p>
+        <p>${data.company || ""}</p>
+        <p>${data.phone || ""}</p>
+        <p>${data.email || ""}</p>
+        <p>${data.bio || ""}</p>
+        <img class="qr" src="${qrUrl}" alt="QR de la tarjeta">
+        <p class="small">${currentUrl}</p>
+      `;
+    }
+
+    loadCard();
+  </script>
+</body>
+</html>
