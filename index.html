@@ -6,6 +6,56 @@
   <title>Corazón de Mujer | Tarjetas digitales</title>
   <link rel="stylesheet" href="./style.css" />
   <style>
+    /* =========================================
+       ANIMACIONES BASE Y VARIABLES
+       ========================================= */
+    :root {
+      --rosa-brand: #FF3EA5;
+      --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Fondo animado sutil */
+    body {
+      background: linear-gradient(-45deg, #ffffff, #fff4fa, #ffffff, #ffeaf4);
+      background-size: 400% 400%;
+      animation: gradientBg 15s ease infinite;
+      overflow-x: hidden; /* Evita scroll horizontal por animaciones */
+    }
+
+    @keyframes gradientBg {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Animación de levitación */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Clases para animación de scroll (JS) */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+
+    /* =========================================
+       ESTILOS ORIGINALES CON MEJORAS
+       ========================================= */
     .landing-hero {
       padding: 60px 0 24px;
     }
@@ -41,6 +91,15 @@
       gap: 14px;
     }
 
+    /* Botones con efecto hover (asegúrate de tener btn-primary en style.css, aquí le damos el hover) */
+    .hero-actions a {
+      transition: var(--transition-smooth);
+    }
+    .hero-actions a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(255, 62, 165, 0.2);
+    }
+
     .hero-panel {
       position: relative;
       min-height: 460px;
@@ -55,11 +114,13 @@
       color: rgba(255, 62, 165, 0.16);
       user-select: none;
       pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+      transition: transform 0.2s ease-out; /* Para el parallax JS */
     }
 
-    .heart-1 { top: 10%; left: 10%; }
-    .heart-2 { bottom: 14%; right: 12%; }
-    .heart-3 { top: 18%; right: 18%; font-size: 42px; }
+    .heart-1 { top: 10%; left: 10%; animation-delay: 0s; }
+    .heart-2 { bottom: 14%; right: 12%; animation-delay: 2s; }
+    .heart-3 { top: 18%; right: 18%; font-size: 42px; animation-delay: 4s; }
 
     .preview-card {
       width: 100%;
@@ -71,6 +132,12 @@
       padding: 28px;
       text-align: center;
       backdrop-filter: blur(10px);
+      animation: float 8s ease-in-out infinite; /* Levitación añadida */
+      transition: var(--transition-smooth);
+    }
+
+    .preview-card:hover {
+      box-shadow: 0 25px 60px rgba(255, 62, 165, 0.25);
     }
 
     .preview-badge {
@@ -95,7 +162,7 @@
     }
 
     .preview-name .rosa {
-      color: #FF3EA5;
+      color: var(--rosa-brand);
     }
 
     .preview-chip-group {
@@ -116,6 +183,11 @@
       color: #374151;
       font-size: 14px;
       font-weight: 600;
+      transition: var(--transition-smooth);
+    }
+    .preview-chip:hover {
+      background: rgba(255, 62, 165, 0.05);
+      transform: scale(1.05);
     }
 
     .preview-bio {
@@ -134,14 +206,18 @@
       height: 170px;
       margin: 0 auto;
       border-radius: 22px;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,1), rgba(255,244,250,1));
+      background: linear-gradient(135deg, rgba(255,255,255,1), rgba(255,244,250,1));
       border: 1px solid rgba(255, 62, 165, 0.12);
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 0 8px 22px rgba(0,0,0,0.06);
       overflow: hidden;
+      transition: var(--transition-smooth);
+    }
+    .preview-qr:hover {
+      transform: scale(1.03);
+      box-shadow: 0 12px 30px rgba(255, 62, 165, 0.2);
     }
 
     .preview-qr svg {
@@ -185,6 +261,11 @@
       padding: 24px;
       box-shadow: 0 12px 28px rgba(0,0,0,0.06);
       border: 1px solid rgba(255,255,255,0.9);
+      transition: var(--transition-smooth);
+    }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(255, 62, 165, 0.12);
     }
 
     .feature-icon {
@@ -195,9 +276,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #FF3EA5;
+      color: var(--rosa-brand);
       font-size: 24px;
       margin-bottom: 16px;
+      transition: var(--transition-smooth);
+    }
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1) rotate(5deg);
     }
 
     .feature-card h3 {
@@ -221,6 +306,10 @@
       text-align: center;
       box-shadow: 0 16px 38px rgba(255, 62, 165, 0.10);
       border: 1px solid rgba(255,255,255,0.9);
+      transition: var(--transition-smooth);
+    }
+    .contact-card:hover {
+      box-shadow: 0 24px 50px rgba(255, 62, 165, 0.18);
     }
 
     .contact-card .eyebrow {
@@ -247,6 +336,10 @@
       justify-content: center;
       gap: 10px;
       text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+    .phone-link:hover {
+      transform: scale(1.05);
     }
 
     .mini-note {
@@ -266,32 +359,28 @@
       .landing-grid {
         grid-template-columns: 1fr;
       }
-
       .hero-copy {
         text-align: center;
       }
-
       .hero-copy .hero-subtitle {
         margin: 0 auto;
       }
-
       .hero-actions {
         justify-content: center;
       }
-
       .feature-grid {
         grid-template-columns: 1fr;
       }
-
       .hero-panel {
         min-height: 0;
+        margin-top: 40px;
       }
     }
   </style>
 </head>
 <body>
   <div class="page-shell">
-    <header class="site-header">
+    <header class="site-header reveal">
       <div class="site-header-inner">
         <div class="brand">
           <span class="brand-heart">♥</span>
@@ -304,7 +393,7 @@
       <div class="container">
         <section class="landing-hero">
           <div class="landing-grid">
-            <div class="hero-copy">
+            <div class="hero-copy reveal delay-1">
               <div class="eyebrow"><span class="spark">✦</span> Tarjetas digitales con identidad premium</div>
               <h1 class="hero-title">Haz que tu <span class="rosa">tarjeta</span> se vea tan bien como tú</h1>
               <p class="hero-subtitle">
@@ -318,7 +407,7 @@
               </div>
             </div>
 
-            <div class="hero-panel">
+            <div class="hero-panel reveal delay-2">
               <div class="floating-heart heart-1">♥</div>
               <div class="floating-heart heart-2">♥</div>
               <div class="floating-heart heart-3">♥</div>
@@ -344,41 +433,33 @@
                     <rect x="8" y="8" width="22" height="22" fill="black"/>
                     <rect x="12" y="12" width="14" height="14" fill="white"/>
                     <rect x="16" y="16" width="6" height="6" fill="black"/>
-
                     <rect x="70" y="8" width="22" height="22" fill="black"/>
                     <rect x="74" y="12" width="14" height="14" fill="white"/>
                     <rect x="78" y="16" width="6" height="6" fill="black"/>
-
                     <rect x="8" y="70" width="22" height="22" fill="black"/>
                     <rect x="12" y="74" width="14" height="14" fill="white"/>
                     <rect x="16" y="78" width="6" height="6" fill="black"/>
-
                     <rect x="38" y="10" width="6" height="6" fill="black"/>
                     <rect x="46" y="10" width="6" height="6" fill="black"/>
                     <rect x="54" y="10" width="6" height="6" fill="black"/>
                     <rect x="38" y="18" width="6" height="6" fill="black"/>
                     <rect x="54" y="18" width="6" height="6" fill="black"/>
-
                     <rect x="38" y="34" width="6" height="6" fill="black"/>
                     <rect x="46" y="34" width="6" height="6" fill="black"/>
                     <rect x="54" y="34" width="6" height="6" fill="black"/>
                     <rect x="62" y="34" width="6" height="6" fill="black"/>
-
                     <rect x="34" y="46" width="6" height="6" fill="black"/>
                     <rect x="42" y="46" width="6" height="6" fill="black"/>
                     <rect x="58" y="46" width="6" height="6" fill="black"/>
                     <rect x="66" y="46" width="6" height="6" fill="black"/>
-
                     <rect x="34" y="54" width="6" height="6" fill="black"/>
                     <rect x="50" y="54" width="6" height="6" fill="black"/>
                     <rect x="58" y="54" width="6" height="6" fill="black"/>
                     <rect x="74" y="54" width="6" height="6" fill="black"/>
-
                     <rect x="38" y="62" width="6" height="6" fill="black"/>
                     <rect x="46" y="62" width="6" height="6" fill="black"/>
                     <rect x="54" y="62" width="6" height="6" fill="black"/>
                     <rect x="62" y="62" width="6" height="6" fill="black"/>
-
                     <rect x="74" y="70" width="18" height="18" fill="black"/>
                     <rect x="78" y="74" width="10" height="10" fill="white"/>
                     <rect x="82" y="78" width="2" height="2" fill="black"/>
@@ -390,29 +471,28 @@
         </section>
 
         <section class="section-block">
-          <div class="section-header">
+          <div class="section-header reveal">
             <div class="eyebrow"><span class="spark">✦</span> ¿Por qué tener una tarjeta digital?</div>
             <h2 class="section-title">Una presencia más <span class="rosa">elegante</span> y práctica</h2>
             <p class="section-text">
-              Tus clientes, asistentes o miembros pueden escanear un QR y acceder a una tarjeta digital limpia,
-              moderna y fácil de actualizar.
+              Tus clientes, asistentes o miembros pueden escanear un QR y acceder a una tarjeta digital limpia, moderna y fácil de actualizar.
             </p>
           </div>
 
           <div class="feature-grid">
-            <div class="feature-card">
+            <div class="feature-card reveal delay-1">
               <div class="feature-icon">♡</div>
               <h3>Diseño premium</h3>
               <p>Un estilo visual limpio, femenino y elegante que fortalece la identidad de tu marca o comunidad.</p>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card reveal delay-2">
               <div class="feature-icon">⌁</div>
               <h3>QR único</h3>
               <p>Cada tarjeta tiene un enlace único que puede colocarse en credenciales, membresías y tarjetas físicas.</p>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card reveal delay-3">
               <div class="feature-icon">✦</div>
               <h3>Activación sencilla</h3>
               <p>El perfil puede activarse fácilmente con un enlace privado, sin necesidad de reimprimir la tarjeta.</p>
@@ -420,13 +500,12 @@
           </div>
         </section>
 
-        <section class="section-block" id="contacto">
+        <section class="section-block reveal" id="contacto">
           <div class="contact-card">
             <div class="eyebrow"><span class="spark">✦</span> Haz crecer tu presencia</div>
             <h2>¿Quieres tu propia tarjeta?</h2>
             <p>
-              Si quieres una tarjeta digital personalizada para tu marca, evento o membresía,
-              contáctanos y te ayudamos a implementarla.
+              Si quieres una tarjeta digital personalizada para tu marca, evento o membresía, contáctanos y te ayudamos a implementarla.
             </p>
 
             <a class="btn-primary phone-link" href="tel:+17372339717">
@@ -441,9 +520,46 @@
       </div>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer reveal">
       Corazón de Mujer · Tarjetas digitales con QR
     </footer>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. ANIMACIONES DE SCROLL (Intersection Observer)
+      const reveals = document.querySelectorAll('.reveal');
+      
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target); // Dejar de observar una vez animado
+          }
+        });
+      }, {
+        threshold: 0.15, // Activa cuando el 15% del elemento es visible
+        rootMargin: "0px 0px -50px 0px"
+      });
+
+      reveals.forEach(reveal => {
+        revealObserver.observe(reveal);
+      });
+
+      // 2. EFECTO PARALLAX CON EL RATÓN (Solo en pantallas grandes)
+      if (window.innerWidth > 960) {
+        document.addEventListener('mousemove', (e) => {
+          const hearts = document.querySelectorAll('.floating-heart');
+          const x = (e.clientX / window.innerWidth - 0.5) * 2; // Rango de -1 a 1
+          const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+          hearts.forEach((heart, index) => {
+            const speed = (index + 1) * 15; // Diferente velocidad para cada corazón
+            heart.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+          });
+        });
+      }
+    });
+  </script>
 </body>
 </html>
