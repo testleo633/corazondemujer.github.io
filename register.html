@@ -80,57 +80,78 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./app.js"></script>
 
-  <script>
-    function slugify(text) {
-      return text
-        .toLowerCase()
-        .trim()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
+
+  async function validateToken() {
+    const msg = document.getElementById("msg");
+
+    if (!token) {
+      msg.textContent = "Este enlace no tiene token.";
+      document.getElementById("registerForm").style.display = "none";
+      return;
     }
 
-    document.getElementById("registerForm").addEventListener("submit", async function (e) {
-      e.preventDefault();
+    const { data, error } = await supabaseClient
+      .from("profiles")
+      .select("id, public_slug, is_claimed, claim_token")
+      .eq("claim_token", token)
+      .single();
 
-      const full_name = document.getElementById("full_name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const company = document.getElementById("company").value.trim();
-      const role = document.getElementById("role").value.trim();
-      const bio = document.getElementById("bio").value.trim();
+    if (error || !data) {
+      msg.textContent = "Este enlace no es válido.";
+      document.getElementById("registerForm").style.display = "none";
+      return;
+    }
 
-      const msg = document.getElementById("msg");
-      msg.textContent = "Creando tarjeta...";
+    if (data.is_claimed) {
+      msg.innerHTML = `Este enlace ya fue usado. <br><a href="./card.html?slug=${data.public_slug}">Ver tarjeta</a>`;
+      document.getElementById("registerForm").style.display = "none";
+      return;
+    }
 
-      const public_slug = slugify(full_name) + "-" + Math.floor(Math.random() * 10000);
+    window.currentProfileId = data.id;
+    window.currentProfileSlug = data.public_slug;
+  }
 
-      const { data, error } = await supabaseClient
-        .from("profiles")
-        .insert([
-          {
-            full_name,
-            email,
-            phone,
-            company,
-            role,
-            bio,
-            public_slug,
-            is_public: true
-          }
-        ])
-        .select()
-        .single();
+  document.getElementById("registerForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-      if (error) {
-        msg.textContent = "Error: " + error.message;
-        return;
-      }
+    const full_name = document.getElementById("full_name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const company = document.getElementById("company").value.trim();
+    const role = document.getElementById("role").value.trim();
+    const bio = document.getElementById("bio").value.trim();
 
-      msg.textContent = "Tarjeta creada";
-      window.location.href = "./card.html?slug=" + data.public_slug;
-    });
-  </script>
+    const msg = document.getElementById("msg");
+    msg.textContent = "Guardando datos...";
+
+    const { error } = await supabaseClient
+      .from("profiles")
+      .update({
+        full_name,
+        email,
+        phone,
+        company,
+        role,
+        bio,
+        is_claimed: true,
+        is_public: true
+      })
+      .eq("id", window.currentProfileId);
+
+    if (error) {
+      msg.textContent = "Error: " + error.message;
+      return;
+    }
+
+    window.location.href = "./card.html?slug=" + window.currentProfileSlug;
+  });
+
+  validateToken();
+</script>
+  
 </body>
 </html>
