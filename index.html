@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tarjeta</title>
+
+<style>
+body{
+font-family:Arial;
+background:#f2f2f2;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.card{
+background:white;
+padding:40px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+text-align:center;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card" id="card">
+Cargando tarjeta...
+</div>
+
+<script>
+
+const personas = {
+
+"001":{
+nombre:"Ana",
+telefono:"+52 656 1111111"
+},
+
+"002":{
+nombre:"Maria",
+telefono:"+52 656 2222222"
+},
+
+"003":{
+nombre:"Luisa",
+telefono:"+52 656 3333333"
+}
+
+}
+
+const params = new URLSearchParams(window.location.search)
+const id = params.get("id")
+
+const card = document.getElementById("card")
+
+if(personas[id]){
+card.innerHTML = `
+<h1>${personas[id].nombre}</h1>
+<p>${personas[id].telefono}</p>
+`
+}else{
+card.innerHTML = "Tarjeta no encontrada"
+}
+
+</script>
+
+</body>
+</html>
